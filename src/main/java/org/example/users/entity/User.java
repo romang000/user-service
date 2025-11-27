@@ -1,4 +1,4 @@
-package org.example.users.repositories.entity;
+package org.example.users.entity;
 
 
 import jakarta.persistence.*;
@@ -7,19 +7,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "users")
-public class UserEntity {
+@Table(name = "users")
+@Entity
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
-    String email;
+    private String email;
 
     @Column(unique = true, nullable = false)
-    String password;
+    private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Product> products;
 }

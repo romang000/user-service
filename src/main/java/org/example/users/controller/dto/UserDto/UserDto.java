@@ -1,4 +1,4 @@
-package org.example.users.controllers.dto;
+package org.example.users.controller.dto.UserDto;
 
 public record UserDto (
         Long id,

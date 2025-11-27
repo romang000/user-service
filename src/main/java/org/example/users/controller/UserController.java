@@ -1,9 +1,9 @@
-package org.example.users.controllers;
+package org.example.users.controller;
 
 import jakarta.validation.Valid;
-import org.example.users.controllers.dto.UserDto;
-import org.example.users.controllers.dto.UserToSave;
-import org.example.users.services.UserService;
+import org.example.users.controller.dto.UserDto.UserDto;
+import org.example.users.controller.dto.UserDto.UserToSave;
+import org.example.users.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

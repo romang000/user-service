@@ -1,11 +1,11 @@
-package org.example.users.services;
+package org.example.users.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.example.users.controllers.dto.UserDto;
-import org.example.users.controllers.dto.UserToSave;
-import org.example.users.exceptionsHandler.EntityAlreadyExists;
-import org.example.users.repositories.UserRepository;
-import org.example.users.repositories.entity.UserEntity;
+import org.example.users.controller.dto.UserDto.UserDto;
+import org.example.users.controller.dto.UserDto.UserToSave;
+import org.example.users.exceptionHandler.exception.EntityAlreadyExists;
+import org.example.users.repository.UserRepository;
+import org.example.users.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,9 @@ public class UserService {
     }
 
     public UserDto findById(Long id) {
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found"));
+        User userEntity = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found"));
+
+        log.info("User with id: {} found", id);
 
         return mapEntityToDto(userEntity);
     }
@@ -44,10 +46,11 @@ public class UserService {
             throw new EntityAlreadyExists("User with email " + userDto.email() + " already exists");
         }
 
-        var userEntity = new UserEntity(
+        var userEntity = new User(
                 null,
                 userDto.email(),
-                userDto.password()
+                userDto.password(),
+                null
         );
 
         userRepository.save(userEntity);
@@ -56,7 +59,8 @@ public class UserService {
         return mapEntityToDto(userEntity);
     }
 
-    public UserDto mapEntityToDto(UserEntity userEntities) {
+
+    public UserDto mapEntityToDto(User userEntities) {
         return new UserDto(
                 userEntities.getId(),
                 userEntities.getEmail()
